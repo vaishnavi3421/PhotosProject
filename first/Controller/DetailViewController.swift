@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 
 class DetailViewController: UIViewController {
-    var photoVM = photoViewModel()
+    var photoVM: photoViewModel?
     
    // var data = Picture()
     let realm = try! Realm()
@@ -37,7 +37,7 @@ class DetailViewController: UIViewController {
    
   
     func saveData() {
-        let userData = photoVM.photo
+        let userData = photoVM!.photoList!
         for data in userData{
             let picture = Picture()
             picture.id = data.id

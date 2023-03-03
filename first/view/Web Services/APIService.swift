@@ -8,8 +8,7 @@
 import Foundation
 
 class APIService {
-    static let  shared = APIService()
-    private init()
+     init()
     {}
         func fetch(completed : @escaping([Photos])-> ())
         {

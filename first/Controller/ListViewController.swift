@@ -10,7 +10,7 @@ import RealmSwift
 
 class ListViewController: UIViewController , UITableViewDelegate , UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return photoVm.photo.count
+        return photoVm.photoList?.count ?? 0
     }
     
   var photoVm = photoViewModel()
@@ -21,8 +21,7 @@ class ListViewController: UIViewController , UITableViewDelegate , UITableViewDa
         
         super.viewDidLoad()
        
-        photoVm.fetchPhotos { [self] in
-            
+        photoVm.getPhotoList { _ in [self]
             self.tableView.reloadData()
             self.navigationItem.hidesBackButton = true
             
@@ -39,8 +38,8 @@ class ListViewController: UIViewController , UITableViewDelegate , UITableViewDa
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
        
-        cell?.textLabel?.text = "Id = \(photoVm.photo[indexPath.row].id)"
-        cell?.detailTextLabel?.text = "Title = \(photoVm.photo[indexPath.row].title)"
+        cell?.textLabel?.text = "Id = \(photoVm.photoList![indexPath.row].id)"
+        cell?.detailTextLabel?.text = "Title = \(photoVm.photoList![indexPath.row].title)"
        
         
         
@@ -49,8 +48,9 @@ class ListViewController: UIViewController , UITableViewDelegate , UITableViewDa
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = storyboard?.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
-        vc.id = " id = \(photoVm.photo[indexPath.row].id)"
-        vc.detialtitle = "title = \(photoVm.photo[indexPath.row].title)"
+        vc.id = " id = \(photoVm.photoList![indexPath.row].id)"
+        vc.detialtitle = "title = \(photoVm.photoList![indexPath.row].title)"
+        vc.photoVM = self.photoVm
         navigationController?.pushViewController(vc, animated: true)
     }
     
